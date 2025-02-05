@@ -11,7 +11,7 @@
 	.background{
         position: center;
 		width: 1200px;
-		height: 900px;
+		aspect-ratio: 16/9;
         background-color: black;
     }
     canvas{
@@ -19,7 +19,13 @@
     }
 </style>
 </head>
-<body onload = "loaded()" onmousedown = "mousedown()" onmouseup = "mouseup()">
+<body 
+oncontextmenu = "return false"
+ondragstart = "return false"
+onselect = "return false"
+onload = "loaded()" 
+onmousedown = "mousedown()" 
+onmouseup = "mouseup()">
     <div class = "background">
         <canvas 
             width = "1200" 

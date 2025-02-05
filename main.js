@@ -1,4 +1,6 @@
 /* 화면 */
+var w = 1200;
+var h = 675;
 
 //로고
 var logo = new Image();
@@ -58,8 +60,8 @@ var walnut_key = false; //호두가 움직이고 있는지
 var basket = new Image();
 basket.src = "./image/basket.png";
 
-var basket_x = 800;
-var basket_y = 560;
+var basket_x;
+var basket_y = h - 100;
 
 var crash = 0; //충돌 판정
 var basket_state = -1; //바구니 리셋 확인용
@@ -183,9 +185,9 @@ function fade_out()
 
 function printLogo()
 {
-    ctx_logo.drawImage(ending, 0, 0, 1200, 900);
-    ctx_logo.drawImage(logo, 350, 250, 500, 300);
-    setTimeout(function() {fade_outInterval = setInterval(fade_out, 50)}, 1000);
+    //ctx_logo.drawImage(ending, 0, 0, w, h);
+    //ctx_logo.drawImage(logo, 350, 250, 500, 300);
+    //setTimeout(function() {fade_outInterval = setInterval(fade_out, 50)}, 1000);
     /*
     if(fade_key)
     {
@@ -206,8 +208,8 @@ function printMain()
 
 function printEnd()
 {
-    ctx_main.clearRect(0, 0, 1200, 900);
-    ctx_main.drawImage(ending, 0, 0, 1200, 900);
+    ctx_main.clearRect(0, 0, w, h);
+    ctx_main.drawImage(ending, 0, 0, w, h);
     ctx_main.font = "50px Arial";
     ctx_main.fillStyle = "white";
     ctx_main.fillText(score, 550, 450);
@@ -215,7 +217,7 @@ function printEnd()
 
 function runGame()
 {
-    context.drawImage(back, 0, 0, 1200, 900);
+    context.drawImage(back, 0, 0, w, h);
 
     if(!event_key)
     {
@@ -249,7 +251,7 @@ function runGame()
     }
 
     context.drawImage(walnut, walnut_x, walnut_y, 75, 75);
-    context.drawImage(ground, 0, 0 , 1200, 900);
+    context.drawImage(ground, 0, 0 , w, h);
     context.drawImage(basket, basket_x, basket_y, 200, 200);
     //console.log(walnut_x, walnut_y);
     
@@ -349,7 +351,7 @@ function resetEvent()
 {
     event_key = false;
 
-    basket_x = 800;
+    basket_x = 700;
     basket_state = 0;
     wind = 0;
     count = 0;
@@ -362,7 +364,7 @@ function resetWalnut()
 {
     console.log("호두 리셋");
     walnut_x = 110;
-    walnut_y = 660;
+    walnut_y = h-250;
     walnut_key = false;
 }
 
@@ -437,7 +439,7 @@ function mouseup()
             }
 
             //바닥에 닿거나 화면을 벗어나면 정지
-            else if((walnut_y > 700 || walnut_x > 1200 || walnut_x < 0) && walnut_key)
+            else if((walnut_y > h-100 || walnut_x > w || walnut_x < 0) && walnut_key)
             {
                 mouse_key = false;
                 console.log("FAIL...");
