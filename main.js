@@ -249,8 +249,8 @@ function runGame()
     }
 
     context.drawImage(walnut, walnut_x, walnut_y, 75, 75);
-    context.drawImage(basket, basket_x, basket_y, 200, 200);
     context.drawImage(ground, 0, 0 , 1200, 900);
+    context.drawImage(basket, basket_x, basket_y, 200, 200);
     //console.log(walnut_x, walnut_y);
     
 
@@ -429,6 +429,7 @@ function mouseup()
             //충돌 판정
             if(basket_x-100 <= walnut_x && walnut_x <= basket_x+150 && basket_y - 50 <= walnut_y && walnut_y <= basket_y + 100)
             {
+                mouse_key = false;
                 console.log("CRASH!");
                 score += 20;
                 clearInterval(walnutInterval);
@@ -438,6 +439,7 @@ function mouseup()
             //바닥에 닿거나 화면을 벗어나면 정지
             else if((walnut_y > 700 || walnut_x > 1200 || walnut_x < 0) && walnut_key)
             {
+                mouse_key = false;
                 console.log("FAIL...");
                 score -= 5;
 
@@ -453,14 +455,12 @@ function mouseup()
                     context.clearRect(0, 0, canvas.width, canvas.height);
                     gameRunning = false;
                     clearInterval(runGameInterval);
-                    mouse_key = false;
 
                     console.log(score);
                     printEnd();
                 }
                 resetWalnut();
                 clearInterval(walnutInterval);
-                mouse_key = false;
             }
         }, 10);
 
