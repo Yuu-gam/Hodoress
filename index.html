@@ -2,12 +2,10 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Hodoress</title>
+<title>이런게게임이라죄송합니다</title>
 <script type="text/javascript">
 
     /* 화면 */
-    var w = 700;
-    var h = 350;
 
     //로고
     var logo = new Image();
@@ -192,9 +190,16 @@
 
     function printLogo()
     {
-        ctx_logo.drawImage(ending, 0, 0, w, h);
-        ctx_logo.drawImage(logo, 300, 150, 100, 50);
+        ctx_logo.drawImage(ending, 0, 0, 1200, 900);
+        ctx_logo.drawImage(logo, 350, 250, 500, 300);
         setTimeout(function() {fade_outInterval = setInterval(fade_out, 50)}, 1000);
+        /*
+        if(fade_key)
+        {
+            ctx_logo.clearRect(0, 0, 1200, 900);
+            ctx_logo.drawImage(start_button, 500, 500, 200, 200);
+            fade_inInterval = setInterval(fade_in, 50);
+        }*/
 
         printMain();
     }
@@ -208,8 +213,8 @@
 
     function printEnd()
     {
-        ctx_main.clearRect(0, 0, w, h);
-        ctx_main.drawImage(ending, 0, 0, w, h);
+        ctx_main.clearRect(0, 0, 1200, 900);
+        ctx_main.drawImage(ending, 0, 0, 1200, 900);
         ctx_main.font = "50px Arial";
         ctx_main.fillStyle = "white";
         ctx_main.fillText(score, 550, 450);
@@ -217,7 +222,7 @@
 
     function runGame()
     {
-        context.drawImage(back, 0, 0, w, h);
+        context.drawImage(back, 0, 0, 1200, 900);
 
         if(!event_key)
         {
@@ -252,7 +257,7 @@
 
         context.drawImage(walnut, walnut_x, walnut_y, 75, 75);
         context.drawImage(basket, basket_x, basket_y, 200, 200);
-        context.drawImage(ground, 0, 0 , w, h);
+        context.drawImage(ground, 0, 0 , 1200, 900);
         //console.log("호두 리셋 후: ", walnut_x, walnut_y);
         
 
@@ -446,7 +451,7 @@
                 }
 
                 //바닥에 닿거나 화면을 벗어나면 정지
-                else if((walnut_y > 700 || walnut_x > w || walnut_x < 0) && walnut_key)
+                else if((walnut_y > 700 || walnut_x > 1200 || walnut_x < 0) && walnut_key)
                 {
                     console.log("FAIL...");
                     score -= 5;
@@ -487,8 +492,8 @@
 	}
 	.background{
         position: center;
-		width: 700px;
-		height: 350px;
+		width: 1200px;
+		height: 900px;
         background-color: black;
     }
     canvas{
@@ -499,23 +504,23 @@
 <body onload = "loaded()" onkeydown = "keydown(event)" onkeyup = "keyup()">
     <div class = "background">
         <canvas 
-            width = "700"
-            height = "350"
+            width = "1200" 
+            height = "900" 
             id = "game">
         </canvas>
         <canvas 
-            width = "700"
-            height = "350"
+            width = "1200" 
+            height = "900" 
             id = "canvas_protractor">
         </canvas>
         <canvas 
-            width = "700"
-            height = "350"
+            width = "1200" 
+            height = "900" 
             id = "main">
         </canvas>
         <canvas 
-            width = "700"
-            height = "350"
+            width = "1200" 
+            height = "900" 
             id = "logo">
         </canvas>
     </div>
