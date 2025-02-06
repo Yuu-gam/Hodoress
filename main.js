@@ -7,14 +7,6 @@ var h = 540;
 var temp = new Image();
 temp.src = "./image/temp.png";
 
-var title = new Image();
-title.src = "./image/title.png";
-
-title.onload = function () {
-    console.log("title 이미지 로드 완료");
-    printMain();
-};
-
 
 //로고
 var logo = new Image();
@@ -25,6 +17,10 @@ var fade_key = false;
 //시작 버튼
 var start_button = new Image();
 start_button.src = "./image/start_button.png";
+
+//타이틀
+var title = new Image();
+title.src = "./image/title.png";
 
 
 /* 게임 진행 화면 */
