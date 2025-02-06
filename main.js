@@ -4,7 +4,7 @@ var h = 540;
 
 //로고
 var logo = new Image();
-logo.src = "./image/logo.jpg";
+logo.src = "./image/logo.png";
 
 var fade_key = false;
 
@@ -61,7 +61,7 @@ var basket = new Image();
 basket.src = "./image/basket.png";
 
 var basket_x;
-var basket_y = h/2 - 10;
+var basket_y = h/2 + 10;
 
 var crash = 0; //충돌 판정
 var basket_state = -1; //바구니 리셋 확인용
@@ -198,8 +198,8 @@ function fade_out()
 function printLogo()
 {
     //ctx_logo.drawImage(ending, 0, 0, w, h);
-    //ctx_logo.drawImage(logo, 350, 250, 500, 300);
-    //setTimeout(function() {fade_outInterval = setInterval(fade_out, 50)}, 1000);
+    ctx_logo.drawImage(logo, 400, 150, 400, 200);
+    setTimeout(function() {fade_outInterval = setInterval(fade_out, 50)}, 1000);
     /*
     if(fade_key)
     {
@@ -208,7 +208,7 @@ function printLogo()
         fade_inInterval = setInterval(fade_in, 50);
     }*/
 
-    printMain();
+        setTimeout(printMain(), 2000);
 }
 
 function printMain()
@@ -230,6 +230,7 @@ function printEnd()
 function runGame()
 {
     context.drawImage(back, 0, 0, w, h);
+    context.drawImage(logo, w - 220, 20, 200, 100);
 
     if(!event_key)
     {
@@ -263,8 +264,8 @@ function runGame()
     }
 
     context.drawImage(ground, 0, 0 , w, h);
-    context.drawImage(walnut, walnut_x, walnut_y, 100, 100);
     context.drawImage(basket, basket_x, basket_y, 200, 200);
+    context.drawImage(walnut, walnut_x, walnut_y, 100, 100);
     //console.log(walnut_x, walnut_y);
     
 
@@ -272,25 +273,29 @@ function runGame()
     let x = 10;
     for(let i = 0 ; i < HEART ; i++)
     {
-        context.drawImage(heart_array[i], x, 10, 100, 100);
-        x += 100;
+        context.drawImage(heart_array[i], x, 10, 80, 80);
+        x += 85;
     }
 
     //각도기   
+    ctx_pro.save(); 
+    ctx_pro.clearRect(0, 0, canvas.width, canvas.height);
+    ctx_pro.translate(160, h/2 + 150);
     if(!touch_key)
     {
-        ctx_pro.save(); 
-        ctx_pro.clearRect(0, 0, canvas.width, canvas.height);
-        ctx_pro.translate(175, h/2 + 150);
         ctx_pro.rotate((slingshot_angle + 90)*(Math.PI / 180));
-        ctx_pro.drawImage(protractor, -25, 0, 50, 200);
+        ctx_pro.drawImage(protractor, -25, 0, 50, 160);
         ctx_pro.restore();
     }
     else
     {
+        
+        ctx_pro.rotate((slingshot_angle_current + 90)*(Math.PI / 180));
+        ctx_pro.drawImage(protractor, -25, 0, 50, 160);
+        ctx_pro.restore();
+
         ctx_pro.save(); 
-        ctx_pro.clearRect(0, 0, canvas.width, canvas.height);
-        ctx_pro.translate(175, h/2 + 150);
+        ctx_pro.translate(160, h/2 + 150);
         ctx_pro.rotate((slingshot_angle_current - 90)*(Math.PI / 180));
         ctx_pro.drawImage(gauge, -25, gauge_y, 50, 80);
         ctx_pro.restore();
@@ -320,26 +325,26 @@ function runGame()
 function eventWind()
 {
     event_key = true;
-    console.log("바람 이벤트 발생");
+    //console.log("바람 이벤트 발생");
 
     if(rand%4 == 0)
     {
         //순방향
         wind = 30;
-        context.drawImage(wind_event, w/2, h/2, 700, 700);
+        context.drawImage(wind_event, w/2 - 200, h/2 - 100, 300, 300);
     }
     else
     {
         //역방향
         wind = -30;
-        context.drawImage(wind_event_reverse, w/2, h/2, 700, 700);
+        context.drawImage(wind_event_reverse, w/2 - 150, h/2 - 100, 300, 300);
     }
 }
 
 function eventBasket()
 {
     event_key = true;
-    console.log("바구니 이벤트 발생");
+    //console.log("바구니 이벤트 발생");
 
     if(basket_key)
     {
@@ -369,14 +374,14 @@ function resetEvent()
     count = 0;
     counter =0;
     rand = Math.floor(Math.random() * 100)
-    console.log(rand);
+    //console.log(rand);
 }
 
 function resetWalnut()
 {
     console.log("호두 리셋");
     walnut_x = 110;
-    walnut_y = h/2 + 100;
+    walnut_y = h/2 + 90;
     walnut_key = false;
 }
 
@@ -413,7 +418,8 @@ function down()
                     {
                         slingshot_gauge_key = 0;
                         slingshot_gauge = 1;
-                        gauge_y = -50
+                        gauge_y = -50;
+                        //console.log('min')
                     }
                 }
             }, 100);
@@ -442,7 +448,7 @@ function up()
             walnut_y = y - (v*Math.sin(angle) - (1/2*g*t))*t;
 
             //충돌 판정
-            if(basket_x-100 <= walnut_x && walnut_x <= basket_x+150 && basket_y - 50 <= walnut_y && walnut_y <= basket_y + 100)
+            if(basket_x-70 <= walnut_x && walnut_x <= basket_x+150 && basket_y - 30 <= walnut_y && walnut_y <= basket_y + 100)
             {
                 touch_key = false;
                 console.log("CRASH!");
@@ -470,8 +476,6 @@ function up()
                     context.clearRect(0, 0, canvas.width, canvas.height);
                     gameRunning = false;
                     clearInterval(runGameInterval);
-
-                    console.log(score);
                     printEnd();
                 }
                 resetWalnut();
