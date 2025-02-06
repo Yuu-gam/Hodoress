@@ -208,7 +208,7 @@ function printLogo()
 
 function printMain()
 {        
-    ctx_main.drawImage(start_button, w/2 + 100, h/2, 200, 200);
+    ctx_main.drawImage(start_button, 500, h/2, 200, 200);
     gameRunning = true;
     document.getElementById("logo").addEventListener("click", startGame, {once: true});
 }
