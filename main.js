@@ -7,6 +7,9 @@ var h = 540;
 var temp = new Image();
 temp.src = "./image/temp.png";
 
+var title = new Image();
+title.src = "./image/title.png";
+
 
 //로고
 var logo = new Image();
@@ -213,7 +216,8 @@ function printMain()
     context.drawImage(back, 0, 0, w, h);
     context.drawImage(logo, w - 220, 20, 200, 100);
     context.drawImage(ground, 0, 0 , w, h);
-    ctx_main.drawImage(start_button, 500, h/2, 200, 200);
+    context.drawImage(title, w/2 - 300, h/2 - 250 , 600, 300);
+    ctx_main.drawImage(start_button, 550, h/2 + 100, 100, 100);
     gameRunning = true;
     document.getElementById("logo").addEventListener("click", startGame, {once: true});
 }
@@ -246,7 +250,7 @@ function printEnd()
     active: function() {
         ctx_main.font = "200px 'Jersey 10'";
         ctx_main.fillStyle = "white";
-        ctx_main.fillText(score, w/2 - 100, h/2 + 50);
+        ctx_main.fillText(score, w/2 - 200, h/2 + 50);
     }
     });
 
