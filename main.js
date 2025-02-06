@@ -50,8 +50,8 @@ var slingshot_gauge_key = 0; //MAX값 확인용
 var walnut = new Image();
 walnut.src = "./image/walnut.png";
 
-var walnut_x = 50;
-var walnut_y = 600;
+var walnut_x;
+var walnut_y;
 
 var walnut_key = false; //호두가 움직이고 있는지
 
@@ -61,7 +61,7 @@ var basket = new Image();
 basket.src = "./image/basket.png";
 
 var basket_x;
-var basket_y = h - 100;
+var basket_y = h/2 - 10;
 
 var crash = 0; //충돌 판정
 var basket_state = -1; //바구니 리셋 확인용
@@ -147,6 +147,18 @@ function startGame()
     ctx_main.clearRect(0, 0, canvas.width, canvas.height);
     score = 0;
 
+    //터치 이벤트 추가
+    const touchDown = document.getElementById('logo');
+    touchDown.addEventListener('touchstart', (event) => 
+    {
+        down();
+    });
+    const touchUp = document.getElementById('logo');
+    touchDown.addEventListener('touchend', (event) => 
+    {
+        up();
+    });
+
     //runGame 반복 호출
     runGameInterval = setInterval(runGame, 10); 
 }
@@ -201,7 +213,7 @@ function printLogo()
 
 function printMain()
 {        
-    ctx_main.drawImage(start_button, 500, 500, 200, 200);
+    ctx_main.drawImage(start_button, 500, h/2, 200, 200);
     gameRunning = true;
     document.getElementById("logo").addEventListener("click", startGame, {once: true});
 }
@@ -250,8 +262,8 @@ function runGame()
         resetWalnut();
     }
 
-    context.drawImage(walnut, walnut_x, walnut_y, 75, 75);
     context.drawImage(ground, 0, 0 , w, h);
+    context.drawImage(walnut, walnut_x, walnut_y, 100, 100);
     context.drawImage(basket, basket_x, basket_y, 200, 200);
     //console.log(walnut_x, walnut_y);
     
@@ -260,7 +272,7 @@ function runGame()
     let x = 10;
     for(let i = 0 ; i < HEART ; i++)
     {
-        context.drawImage(heart_array[i], x, 770, 100, 100);
+        context.drawImage(heart_array[i], x, 10, 100, 100);
         x += 100;
     }
 
@@ -269,7 +281,7 @@ function runGame()
     {
         ctx_pro.save(); 
         ctx_pro.clearRect(0, 0, canvas.width, canvas.height);
-        ctx_pro.translate(150, 700);
+        ctx_pro.translate(175, h/2 + 150);
         ctx_pro.rotate((slingshot_angle + 90)*(Math.PI / 180));
         ctx_pro.drawImage(protractor, -25, 0, 50, 200);
         ctx_pro.restore();
@@ -278,7 +290,7 @@ function runGame()
     {
         ctx_pro.save(); 
         ctx_pro.clearRect(0, 0, canvas.width, canvas.height);
-        ctx_pro.translate(150, 700);
+        ctx_pro.translate(175, h/2 + 150);
         ctx_pro.rotate((slingshot_angle_current - 90)*(Math.PI / 180));
         ctx_pro.drawImage(gauge, -25, gauge_y, 50, 80);
         ctx_pro.restore();
@@ -314,13 +326,13 @@ function eventWind()
     {
         //순방향
         wind = 30;
-        context.drawImage(wind_event, 150, 50, 700, 700);
+        context.drawImage(wind_event, w/2, h/2, 700, 700);
     }
     else
     {
         //역방향
         wind = -30;
-        context.drawImage(wind_event_reverse, 150, 50, 700, 700);
+        context.drawImage(wind_event_reverse, w/2, h/2, 700, 700);
     }
 }
 
@@ -364,12 +376,13 @@ function resetWalnut()
 {
     console.log("호두 리셋");
     walnut_x = 110;
-    walnut_y = h-250;
+    walnut_y = h/2 + 100;
     walnut_key = false;
 }
 
-function mousedown()
+function down()
 {
+    console.log("down");
     if(gameRunning && !mouse_key && !walnut_key && !gaugeInterval) 
     {   
         mouse_key = true;
@@ -408,7 +421,8 @@ function mousedown()
     }
 }
 
-function mouseup()
+
+function up()
 {
     if(gameRunning && mouse_key)
     {

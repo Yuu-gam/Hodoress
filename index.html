@@ -11,40 +11,38 @@
 	.background{
         position: center;
 		width: 1200px;
-		aspect-ratio: 20/9;
+		aspect-ratio: 20/9; /*갤럭시 s20 ultra 기준*/
         background-color: black;
     }
     canvas{
         position: absolute;
-    }
+    } 
 </style>
 </head>
-<body 
+<body
 oncontextmenu = "return false"
 ondragstart = "return false"
 onselect = "return false"
-onload = "loaded()" 
-onmousedown = "mousedown()" 
-onmouseup = "mouseup()">
+onload = "loaded()" >
     <div class = "background">
         <canvas 
             width = "1200" 
-            height = "900" 
+            height = "540" 
             id = "game">
         </canvas>
         <canvas 
             width = "1200" 
-            height = "900" 
+            height = "540" 
             id = "canvas_protractor">
         </canvas>
         <canvas 
             width = "1200" 
-            height = "900" 
+            height = "540" 
             id = "main">
         </canvas>
         <canvas 
             width = "1200" 
-            height = "900" 
+            height = "540" 
             id = "logo">
         </canvas>
     </div>
