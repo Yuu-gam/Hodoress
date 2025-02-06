@@ -1,3 +1,5 @@
+document.oncontextmenu = function(){return false;}
+
 /* 화면 */
 var w = 1200;
 var h = 540;
