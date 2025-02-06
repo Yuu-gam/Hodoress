@@ -10,6 +10,11 @@ temp.src = "./image/temp.png";
 var title = new Image();
 title.src = "./image/title.png";
 
+title.onload = function () {
+    console.log("title 이미지 로드 완료");
+    printMain();
+};
+
 
 //로고
 var logo = new Image();
