@@ -217,9 +217,28 @@ function printEnd()
 {
     ctx_main.clearRect(0, 0, w, h);
     ctx_main.drawImage(ending, 0, 0, w, h);
-    ctx_main.font = "50px 'Jersey 10'";
-    ctx_main.fillStyle = "white";
-    ctx_main.fillText(score, 550, 450);
+
+    const font = new FontFace('Jersey 10', 'url(https://fonts.googleapis.com/css2?family=Jersey+10&display=swap)');
+    font.load().then(function()
+    {
+        ctx_main.font = "50px 'Jersey 10'";
+        ctx_main.fillStyle = "white";
+        ctx_main.fillText(score, 550, 450);
+    }).catch(function(error) {
+        console.error('Font Loading Failed: ', error);
+    });
+
+    WebFont.load({
+    google: {
+        families: ['Jersey+10'] // Google Fonts 폰트 이름 확인
+    },
+    active: function() {
+        // 폰트 로딩 완료 후 실행
+        ctx_main.font = "50px 'Jersey 10'";
+        ctx_main.fillStyle = "white";
+        ctx_main.fillText(score, 550, 450);
+    }
+    });
 
     document.getElementById("logo").addEventListener("click", startGame, {once: true});
 }
