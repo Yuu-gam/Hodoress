@@ -4,6 +4,10 @@ document.oncontextmenu = function(){return false;}
 var w = 1200;
 var h = 540;
 
+var temp = new Image();
+temp.src = "./image/temp.png";
+
+
 //로고
 var logo = new Image();
 logo.src = "./image/logo.png";
@@ -14,10 +18,6 @@ var fade_key = false;
 var start_button = new Image();
 start_button.src = "./image/start_button.png";
 
-//엔딩 화면
-var ending = new Image();
-ending.src = "./image/ending.png";
-
 
 /* 게임 진행 화면 */
 
@@ -27,6 +27,8 @@ back.src = "./image/background.png";
 var ground = new Image();
 ground.src = "./image/ground.png";
 
+
+//각도기
 var protractor = new Image();
 protractor.src = "./image/protractor.png";
 
@@ -199,7 +201,7 @@ function fade_out()
 
 function printLogo()
 {
-    ctx_logo.drawImage(ending, 0, 0, w, h);
+    ctx_logo.drawImage(temp, 0, 0, w, h);
     ctx_logo.drawImage(logo, 400, 150, 400, 200);
     setTimeout(function() {fade_outInterval = setInterval(fade_out, 50)}, 1000);
 
@@ -208,6 +210,9 @@ function printLogo()
 
 function printMain()
 {        
+    context.drawImage(back, 0, 0, w, h);
+    context.drawImage(logo, w - 220, 20, 200, 100);
+    context.drawImage(ground, 0, 0 , w, h);
     ctx_main.drawImage(start_button, 500, h/2, 200, 200);
     gameRunning = true;
     document.getElementById("logo").addEventListener("click", startGame, {once: true});
@@ -216,7 +221,11 @@ function printMain()
 function printEnd()
 {
     ctx_main.clearRect(0, 0, w, h);
-    ctx_main.drawImage(ending, 0, 0, w, h);
+    context.clearRect(0, 0, w, h);
+
+    ctx_main.drawImage(back, 0, 0, w, h);
+    ctx_main.drawImage(logo, w - 220, 20, 200, 100);
+    ctx_main.drawImage(ground, 0, 0 , w, h);
 
     const font = new FontFace('Jersey 10', 'url(https://fonts.googleapis.com/css2?family=Jersey+10&display=swap)');
     font.load().then(function()
@@ -233,9 +242,9 @@ function printEnd()
         families: ['Jersey+10'] //폰트 이름 확인
     },
     active: function() {
-        ctx_main.font = "50px 'Jersey 10'";
+        ctx_main.font = "200px 'Jersey 10'";
         ctx_main.fillStyle = "white";
-        ctx_main.fillText(score, w/2, h/2);
+        ctx_main.fillText(score, w/2 - 100, h/2);
     }
     });
 
@@ -246,13 +255,14 @@ function runGame()
 {
     context.drawImage(back, 0, 0, w, h);
     context.drawImage(logo, w - 220, 20, 200, 100);
+    context.drawImage(ground, 0, 0 , w, h);
 
     if(!event_key)
     {
         count++;
     }
     
-    if(300 < count) //3초마다
+    if(200 < count) //2초마다
     {
         event_key = true;
 
@@ -278,12 +288,6 @@ function runGame()
         resetWalnut();
     }
 
-    context.drawImage(ground, 0, 0 , w, h);
-    context.drawImage(basket, basket_x, basket_y, 200, 200);
-    context.drawImage(walnut, walnut_x, walnut_y, 100, 100);
-    //console.log(walnut_x, walnut_y);
-    
-
     //체력 출력
     let x = 10;
     for(let i = 0 ; i < HEART ; i++)
@@ -299,22 +303,24 @@ function runGame()
     if(!touch_key)
     {
         ctx_pro.rotate((slingshot_angle + 90)*(Math.PI / 180));
-        ctx_pro.drawImage(protractor, -25, 0, 50, 160);
+        ctx_pro.drawImage(protractor, -25, 0, 60, 128);
         ctx_pro.restore();
     }
     else
     {
-        
         ctx_pro.rotate((slingshot_angle_current + 90)*(Math.PI / 180));
-        ctx_pro.drawImage(protractor, -25, 0, 50, 160);
+        ctx_pro.drawImage(protractor, -25, 0, 60, 128);
         ctx_pro.restore();
 
         ctx_pro.save(); 
         ctx_pro.translate(160, h/2 + 150);
         ctx_pro.rotate((slingshot_angle_current - 90)*(Math.PI / 180));
-        ctx_pro.drawImage(gauge, -25, gauge_y, 50, 80);
+        ctx_pro.drawImage(gauge, -35, gauge_y, 60, 60);
         ctx_pro.restore();
     }
+
+    context.drawImage(basket, basket_x, basket_y, 200, 200);
+    context.drawImage(walnut, walnut_x, walnut_y, 100, 100);
     
     //각도 변화
     if(slingshot_angle_key == 0)
