@@ -63,7 +63,7 @@ var basket = new Image();
 basket.src = "./image/basket.png";
 
 var basket_x;
-var basket_y = h/2 + 10;
+var basket_y = h/2 + 15;
 
 var crash = 0; //충돌 판정
 var basket_state = -1; //바구니 리셋 확인용
@@ -443,7 +443,7 @@ function up()
             walnut_y = y - (v*Math.sin(angle) - (1/2*g*t))*t;
 
             //충돌 판정
-            if(basket_x-70 <= walnut_x && walnut_x <= basket_x+150 && basket_y - 30 <= walnut_y && walnut_y <= basket_y + 100)
+            if(basket_x-70 <= walnut_x && walnut_x <= basket_x+100 && basket_y - 10 <= walnut_y && walnut_y <= basket_y + 50)
             {
                 touch_key = false;
                 console.log("CRASH!");
