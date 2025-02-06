@@ -200,7 +200,7 @@ function fade_out()
 function printLogo()
 {
     ctx_logo.drawImage(ending, 0, 0, w, h);
-    ctx_logo.drawImage(logo, 400, 150, 400, 200);
+    //ctx_logo.drawImage(logo, 400, 150, 400, 200);
     setTimeout(function() {fade_outInterval = setInterval(fade_out, 50)}, 1000);
 
     printMain();
