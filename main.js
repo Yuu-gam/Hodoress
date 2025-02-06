@@ -1,6 +1,6 @@
 /* 화면 */
 var w = 1200;
-var h = 675;
+var h = 540;
 
 //로고
 var logo = new Image();
