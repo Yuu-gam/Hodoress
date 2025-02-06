@@ -217,7 +217,7 @@ function printMain()
     context.drawImage(back, 0, 0, w, h);
     context.drawImage(logo, w - 220, 20, 200, 100);
     context.drawImage(ground, 0, 0 , w, h);
-    //ctx_main.drawImage(title, w/2 - 300, h/2 - 250 , 600, 300);
+    context.drawImage(title, w/2 - 300, h/2 - 250 , 600, 300);
     ctx_main.drawImage(start_button, 550, h/2 + 100, 100, 100);
     gameRunning = true;
     document.getElementById("logo").addEventListener("click", startGame, {once: true});
