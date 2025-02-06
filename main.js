@@ -199,18 +199,11 @@ function fade_out()
 
 function printLogo()
 {
-    //ctx_logo.drawImage(ending, 0, 0, w, h);
+    ctx_logo.drawImage(ending, 0, 0, w, h);
     ctx_logo.drawImage(logo, 400, 150, 400, 200);
     setTimeout(function() {fade_outInterval = setInterval(fade_out, 50)}, 1000);
-    /*
-    if(fade_key)
-    {
-        ctx_logo.clearRect(0, 0, 1200, 900);
-        ctx_logo.drawImage(start_button, 500, 500, 200, 200);
-        fade_inInterval = setInterval(fade_in, 50);
-    }*/
 
-        setTimeout(printMain(), 2000);
+    printMain();
 }
 
 function printMain()
