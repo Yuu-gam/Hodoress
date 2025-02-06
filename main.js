@@ -99,7 +99,7 @@ var gameRunning = false;
 var runGameInterval;
 var gaugeInterval;
 var walnutInterval;
-var mouse_key = false;
+var touch_key = false;
 
 function loaded()
 {
@@ -130,7 +130,7 @@ function resetGame() {  // 모든 변수 초기화
     
     score = 0;
     rand = Math.floor(Math.random() * 100);
-    mouse_key = false;
+    touch_key = false;
     heart_current = HEART;
     heart_array = Array.from({ length: HEART }, () => heart_on);
     resetWalnut();
@@ -277,7 +277,7 @@ function runGame()
     }
 
     //각도기   
-    if(!mouse_key)
+    if(!touch_key)
     {
         ctx_pro.save(); 
         ctx_pro.clearRect(0, 0, canvas.width, canvas.height);
@@ -382,10 +382,10 @@ function resetWalnut()
 
 function down()
 {
-    console.log("down");
-    if(gameRunning && !mouse_key && !walnut_key && !gaugeInterval) 
+    if(gameRunning && !touch_key && !walnut_key && !gaugeInterval) 
     {   
-        mouse_key = true;
+        console.log("down");
+        touch_key = true;
         slingshot_gauge = 1;
         slingshot_angle_current = slingshot_angle;
         gauge_y = -50   
@@ -424,9 +424,8 @@ function down()
 
 function up()
 {
-    if(gameRunning && mouse_key)
+    if(gameRunning && touch_key && !walnut_key)
     {
-        //mouse_key = false;
         slingshot_angle = 90;
         walnut_key = true;
         clearInterval(gaugeInterval);
@@ -445,7 +444,7 @@ function up()
             //충돌 판정
             if(basket_x-100 <= walnut_x && walnut_x <= basket_x+150 && basket_y - 50 <= walnut_y && walnut_y <= basket_y + 100)
             {
-                mouse_key = false;
+                touch_key = false;
                 console.log("CRASH!");
                 score += 20;
                 clearInterval(walnutInterval);
@@ -455,7 +454,7 @@ function up()
             //바닥에 닿거나 화면을 벗어나면 정지
             else if((walnut_y > h-100 || walnut_x > w || walnut_x < 0) && walnut_key)
             {
-                mouse_key = false;
+                touch_key = false;
                 console.log("FAIL...");
                 score -= 5;
 
