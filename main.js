@@ -217,7 +217,7 @@ function printEnd()
 {
     ctx_main.clearRect(0, 0, w, h);
     ctx_main.drawImage(ending, 0, 0, w, h);
-    ctx_main.font = "50px Arial";
+    ctx_main.font = "50px 'Jersey 10'";
     ctx_main.fillStyle = "white";
     ctx_main.fillText(score, 550, 450);
 }
