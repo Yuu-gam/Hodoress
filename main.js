@@ -208,7 +208,7 @@ function printLogo()
 
 function printMain()
 {        
-    ctx_main.drawImage(start_button, 500, h/2, 200, 200);
+    ctx_main.drawImage(start_button, w/2 + 100, h/2, 200, 200);
     gameRunning = true;
     document.getElementById("logo").addEventListener("click", startGame, {once: true});
 }
@@ -223,20 +223,19 @@ function printEnd()
     {
         ctx_main.font = "50px 'Jersey 10'";
         ctx_main.fillStyle = "white";
-        ctx_main.fillText(score, 550, 450);
+        ctx_main.fillText(score, w/2, h/2);
     }).catch(function(error) {
         console.error('Font Loading Failed: ', error);
     });
 
     WebFont.load({
     google: {
-        families: ['Jersey+10'] // Google Fonts 폰트 이름 확인
+        families: ['Jersey+10'] //폰트 이름 확인
     },
     active: function() {
-        // 폰트 로딩 완료 후 실행
         ctx_main.font = "50px 'Jersey 10'";
         ctx_main.fillStyle = "white";
-        ctx_main.fillText(score, 550, 450);
+        ctx_main.fillText(score, w/2, h/2);
     }
     });
 
