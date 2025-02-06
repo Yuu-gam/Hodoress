@@ -200,7 +200,7 @@ function fade_out()
 function printLogo()
 {
     ctx_logo.drawImage(ending, 0, 0, w, h);
-    //ctx_logo.drawImage(logo, 400, 150, 400, 200);
+    ctx_logo.drawImage(logo, 400, 150, 400, 200);
     setTimeout(function() {fade_outInterval = setInterval(fade_out, 50)}, 1000);
 
     printMain();
@@ -220,6 +220,8 @@ function printEnd()
     ctx_main.font = "50px 'Jersey 10'";
     ctx_main.fillStyle = "white";
     ctx_main.fillText(score, 550, 450);
+
+    document.getElementById("logo").addEventListener("click", startGame, {once: true});
 }
 
 function runGame()
