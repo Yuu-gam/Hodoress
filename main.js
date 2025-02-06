@@ -226,6 +226,8 @@ function printEnd()
     ctx_main.drawImage(back, 0, 0, w, h);
     ctx_main.drawImage(logo, w - 220, 20, 200, 100);
     ctx_main.drawImage(ground, 0, 0 , w, h);
+    ctx_main.drawImage(temp, w/4, h/4, w/2, h/2);
+
 
     const font = new FontFace('Jersey 10', 'url(https://fonts.googleapis.com/css2?family=Jersey+10&display=swap)');
     font.load().then(function()
@@ -244,7 +246,7 @@ function printEnd()
     active: function() {
         ctx_main.font = "200px 'Jersey 10'";
         ctx_main.fillStyle = "white";
-        ctx_main.fillText(score, w/2 - 100, h/2);
+        ctx_main.fillText(score, w/2 - 100, h/2 + 50);
     }
     });
 
