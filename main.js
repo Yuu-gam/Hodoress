@@ -111,8 +111,6 @@ var touch_key = false;
 
 //이미지 로드 확인
 var images = {}; 
-var imageCount = 0; 
-var loadedCount = 0; 
 
 var imageSources = {
     temp: "./image/temp.png",
@@ -132,6 +130,9 @@ var imageSources = {
 };
 
 function loadImages(callback) {
+    imageCount = Object.keys(imageSources).length; // 전체 이미지 개수 설정
+    loadedCount = 0
+
     for (let key in imageSources) {
         images[key] = new Image();
         images[key].src = imageSources[key];
