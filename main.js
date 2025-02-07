@@ -78,7 +78,7 @@ var basket_key = false; //바구니가 움직이고 있는지
 
 //생명력
 var heart_on = new Image();
-heart_on.src = "https://yuu-gam.github.io/Hodoress/image/heart/heart_on.png";
+heart_on.src = "./image/heart/heart_on.png";
 var heart_off = new Image();
 heart_off.src = "./image/heart/heart_off.png";
 
@@ -123,7 +123,7 @@ var imageSources = {
     gauge: "./image/gauge.png",
     walnut: "./image/walnut.png",
     basket: "./image/basket.png",
-    heart_on: "https://yuu-gam.github.io/Hodoress/image/heart/heart_on.png",
+    heart_on: "./image/heart/heart_on.png",
     heart_off: "./image/heart/heart_off.png",
     wind_event: "./image/wind_event.png",
     wind_event_reverse: "./image/wind_event_reverse.png"
