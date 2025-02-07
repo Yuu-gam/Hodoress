@@ -18,10 +18,10 @@ var fade_key = false;
 var start_button = new Image();
 start_button.src = "./image/start_button.png";
 
-var button_x = 550;
-var button_y = h/2 + 100;
-var button_width = 100;
-var button_height = 100;
+var button_x = w/2 - 150;
+var button_y = h/2 + 75;
+var button_width = 300;
+var button_height = 150;
 
 var mouse_x;
 var mouse_y;
@@ -112,6 +112,9 @@ var event_key = false; //이벤트가 진행중인지
 //점수
 var score = 0;
 
+var score_panel = new Image();
+score_panel.src = "./image/score_panel.png";
+
 var gameRunning = false;
 var runGameInterval;
 var gaugeInterval;
@@ -135,7 +138,8 @@ var imageSources = {
     heart_on: "./image/heart/heart_on.png",
     heart_off: "./image/heart/heart_off.png",
     wind_event: "./image/wind_event.png",
-    wind_event_reverse: "./image/wind_event_reverse.png"
+    wind_event_reverse: "./image/wind_event_reverse.png",
+    score_panel: "./image/score_panel.png"
 };
 
 function loadImages(callback) {
@@ -304,7 +308,7 @@ function printEnd()
     ctx_main.drawImage(back, 0, 0, w, h);
     ctx_main.drawImage(logo, w - 220, 20, 200, 100);
     ctx_main.drawImage(ground, 0, 0 , w, h);
-    ctx_main.drawImage(temp, w/4, h/4, w/2, h/2);
+    ctx_main.drawImage(score_panel, w/4, h/4 - 50, w/2, h/2);
 
 
     const font = new FontFace('Jersey 10', 'url(https://fonts.googleapis.com/css2?family=Jersey+10&display=swap)');
@@ -316,7 +320,7 @@ function printEnd()
         ctx_main.font = "200px 'Jersey 10'";
         ctx_main.fillStyle = "white";
         ctx_main.textAlign = "center";
-        ctx_main.fillText(score, w/2, h/2 + 50);
+        ctx_main.fillText(score, w/2, h/2);
     }
     });
 
@@ -426,13 +430,13 @@ function eventWind()
     {
         //순방향
         wind = 30;
-        context.drawImage(wind_event, w/2 - 200, h/2 - 100, 300, 300);
+        context.drawImage(wind_event, w/2 - 400, h/2 - 250, 500, 500);
     }
     else
     {
         //역방향
         wind = -30;
-        context.drawImage(wind_event_reverse, w/2 - 150, h/2 - 100, 300, 300);
+        context.drawImage(wind_event_reverse, w/2 - 350, h/2 - 250, 500, 500);
     }
 }
 
