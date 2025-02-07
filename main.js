@@ -212,21 +212,16 @@ function resetGame() {  // 모든 변수 초기화
 function startGame()
 {
     resetGame();
+
     document.getElementById("logo").removeEventListener("touchstart", handleClick);
     ctx_main.clearRect(0, 0, canvas.width, canvas.height);
-    score = 0;
 
     //터치 이벤트 추가
     const touchDown = document.getElementById('logo');
-    touchDown.addEventListener('touchstart', (event) => 
-    {
-        down();
-    });
-    const touchUp = document.getElementById('logo');
-    touchDown.addEventListener('touchend', (event) => 
-    {
-        up();
-    });
+    touchDown.removeEventListener('touchstart', down);
+    touchDown.removeEventListener('touchend', up);
+    touchDown.addEventListener('touchstart', down);
+    touchDown.addEventListener('touchend', up);
 
     //runGame 반복 호출
     runGameInterval = setInterval(runGame, 10); 
@@ -473,12 +468,11 @@ function resetEvent()
     count = 0;
     counter =0;
     rand = Math.floor(Math.random() * 100)
-    //console.log(rand);
 }
 
 function resetWalnut()
 {
-    console.log("호두 리셋");
+    //console.log("호두 리셋");
     walnut_x = 110;
     walnut_y = h/2 + 90;
     walnut_key = false;
@@ -488,7 +482,7 @@ function down()
 {
     if(gameRunning && !touch_key && !walnut_key && !gaugeInterval) 
     {   
-        console.log("down");
+        //console.log("down");
         touch_key = true;
         slingshot_gauge = 1;
         slingshot_angle_current = slingshot_angle;
@@ -550,7 +544,7 @@ function up()
             if(basket_x-70 <= walnut_x && walnut_x <= basket_x+100 && basket_y - 10 <= walnut_y && walnut_y <= basket_y + 50)
             {
                 touch_key = false;
-                console.log("CRASH!");
+                //console.log("CRASH!");
                 score += 20;
                 clearInterval(walnutInterval);
                 resetWalnut();
@@ -560,7 +554,7 @@ function up()
             else if((walnut_y > h-100 || walnut_x > w || walnut_x < 0) && walnut_key)
             {
                 touch_key = false;
-                console.log("FAIL...");
+                //console.log("FAIL...");
                 score -= 5;
 
                 if(heart_current > 0)
