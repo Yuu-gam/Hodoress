@@ -18,6 +18,15 @@ var fade_key = false;
 var start_button = new Image();
 start_button.src = "./image/start_button.png";
 
+var button_x = 550;
+var button_y = h/2 + 100;
+var button_width = 100;
+var button_height = 100;
+
+var mouse_x;
+var mouse_y;
+
+
 //타이틀
 var title = new Image();
 title.src = "./image/title.png";
@@ -199,7 +208,7 @@ function resetGame() {  // 모든 변수 초기화
 function startGame()
 {
     resetGame();
-    document.getElementById("logo").removeEventListener("click", startGame);
+    document.getElementById("logo").removeEventListener("touchstart", handleClick);
     ctx_main.clearRect(0, 0, canvas.width, canvas.height);
     score = 0;
 
@@ -266,9 +275,25 @@ function printMain()
     context.drawImage(logo, w - 220, 20, 200, 100);
     context.drawImage(ground, 0, 0 , w, h);
     context.drawImage(title, w/2 - 300, h/2 - 250 , 600, 300);
-    ctx_main.drawImage(start_button, 550, h/2 + 100, 100, 100);
+    ctx_main.drawImage(start_button, button_x, button_y, button_width, button_height);
     gameRunning = true;
-    document.getElementById("logo").addEventListener("click", startGame, {once: true});
+
+    document.getElementById("logo").addEventListener("touchstart", handleClick);
+}
+
+function handleClick(event)
+{
+    getMousePosition(event.touches[0]);
+    if(mouse_x >= button_x && mouse_x <= button_x + button_width && mouse_y >= button_y && mouse_y <= button_y + button_height)
+    {
+        startGame();
+    }
+}
+
+function getMousePosition(event)
+{
+    mouse_x = event.clientX - document.getElementById("logo").getBoundingClientRect().left;
+    mouse_y = event.clientY - document.getElementById("logo").getBoundingClientRect().top;
 }
 
 function printEnd()
@@ -283,15 +308,6 @@ function printEnd()
 
 
     const font = new FontFace('Jersey 10', 'url(https://fonts.googleapis.com/css2?family=Jersey+10&display=swap)');
-    font.load().then(function()
-    {
-        ctx_main.font = "50px 'Jersey 10'";
-        ctx_main.fillStyle = "white";
-        ctx_main.fillText(score, w/2, h/2);
-    }).catch(function(error) {
-        console.error('Font Loading Failed: ', error);
-    });
-
     WebFont.load({
     google: {
         families: ['Jersey+10'] //폰트 이름 확인
@@ -299,11 +315,14 @@ function printEnd()
     active: function() {
         ctx_main.font = "200px 'Jersey 10'";
         ctx_main.fillStyle = "white";
-        ctx_main.fillText(score, w/2 - 200, h/2 + 50);
+        ctx_main.textAlign = "center";
+        ctx_main.fillText(score, w/2, h/2 + 50);
     }
     });
 
-    document.getElementById("logo").addEventListener("click", startGame, {once: true});
+    //재시작 버튼
+    ctx_main.drawImage(start_button, button_x, button_y, button_width, button_height);
+    document.getElementById("logo").addEventListener("touchstart", handleClick);
 }
 
 function runGame()
