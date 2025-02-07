@@ -66,7 +66,7 @@ var walnut_key = false; //호두가 움직이고 있는지
 
 //바구니
 var basket = new Image();
-basket.src = "image/basket.png";
+basket.src = "./image/basket.png";
 
 var basket_x;
 var basket_y = h/2 + 15;
@@ -78,9 +78,9 @@ var basket_key = false; //바구니가 움직이고 있는지
 
 //생명력
 var heart_on = new Image();
-heart_on.src = "image/heart/heart_on.png";
+heart_on.src = "https://yuu-gam.github.io/Hodoress/image/heart/heart_on.png";
 var heart_off = new Image();
-heart_off.src = "image/heart/heart_off.png";
+heart_off.src = "./image/heart/heart_off.png";
 
 var HEART = 5; //최대 하트
 var heart_current = HEART;
@@ -94,9 +94,9 @@ var rand = Math.floor(Math.random() * 100);
 
 var wind = 0;
 var wind_event = new Image();
-wind_event.src = "image/wind_event.png";
+wind_event.src = "./image/wind_event.png";
 var wind_event_reverse = new Image();
-wind_event_reverse.src = "image/wind_event_reverse.png";
+wind_event_reverse.src = "./image/wind_event_reverse.png";
 var event_key = false; //이벤트가 진행중인지
 
 
@@ -113,20 +113,20 @@ var touch_key = false;
 var images = {}; 
 
 var imageSources = {
-    temp: "image/temp.png",
-    title: "image/title.png",
-    logo: "image/logo.png",
-    start_button: "image/start_button.png",
-    back: "image/background.png",
-    ground: "image/ground.png",
-    protractor: "image/protractor.png",
-    gauge: "image/gauge.png",
-    walnut: "image/walnut.png",
-    basket: "image/basket.png",
-    heart_on: "image/heart/heart_on.png",
-    heart_off: "image/heart/heart_off.png",
-    wind_event: "image/wind_event.png",
-    wind_event_reverse: "image/wind_event_reverse.png"
+    temp: "./image/temp.png",
+    title: "./image/title.png",
+    logo: "./image/logo.png",
+    start_button: "./image/start_button.png",
+    back: "./image/background.png",
+    ground: "./image/ground.png",
+    protractor: "./image/protractor.png",
+    gauge: "./image/gauge.png",
+    walnut: "./image/walnut.png",
+    basket: "./image/basket.png",
+    heart_on: "https://yuu-gam.github.io/Hodoress/image/heart/heart_on.png",
+    heart_off: "./image/heart/heart_off.png",
+    wind_event: "./image/wind_event.png",
+    wind_event_reverse: "./image/wind_event_reverse.png"
 };
 
 function loadImages(callback) {
