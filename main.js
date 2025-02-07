@@ -80,9 +80,13 @@ basket.src = "./image/basket.png";
 var basket_x;
 var basket_y = h/2 + 15;
 
-var crash = 0; //충돌 판정
 var basket_state = -1; //바구니 리셋 확인용
 var basket_key = false; //바구니가 움직이고 있는지
+
+var success = new Image();
+success.src = "./image/success.png"
+
+var crash = false; //충돌 판정
 
 
 //생명력
@@ -135,6 +139,7 @@ var imageSources = {
     gauge: "./image/gauge.png",
     walnut: "./image/walnut.png",
     basket: "./image/basket.png",
+    success: "./image/success.png",
     heart_on: "./image/heart/heart_on.png",
     heart_off: "./image/heart/heart_off.png",
     wind_event: "./image/wind_event.png",
@@ -199,6 +204,7 @@ function resetGame() {  // 모든 변수 초기화
     
     score = 0;
     rand = Math.floor(Math.random() * 100);
+    crash = false;
     touch_key = false;
     heart_current = HEART;
     heart_array = Array.from({ length: HEART }, () => heart_on);
@@ -332,6 +338,11 @@ function runGame()
     context.drawImage(back, 0, 0, w, h);
     context.drawImage(logo, w - 220, 20, 200, 100);
     context.drawImage(ground, 0, 0 , w, h);
+
+    if(crash) //성공 출력
+    {
+        context.drawImage(success, basket_x + 30, basket_y - 70, 150, 75);
+    }
 
     if(!event_key)
     {
@@ -479,6 +490,7 @@ function resetWalnut()
     walnut_x = 110;
     walnut_y = h/2 + 90;
     walnut_key = false;
+    setTimeout(function() {crash = false;}, 500); //0.5초간 성공 판정 출력
 }
 
 function down()
@@ -548,6 +560,7 @@ function up()
             {
                 touch_key = false;
                 //console.log("CRASH!");
+                crash = true;
                 score += 20;
                 clearInterval(walnutInterval);
                 resetWalnut();
