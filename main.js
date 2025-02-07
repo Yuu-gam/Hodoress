@@ -270,6 +270,10 @@ function printLogo()
 
 function printMain()
 {        
+    /*바구니 범위 확인용
+    context.fillStyle = 'red'; 
+    context.fillRect(10, 10, 270, 60);*/
+
     context.drawImage(back, 0, 0, w, h);
     context.drawImage(logo, w - 220, 20, 200, 100);
     context.drawImage(ground, 0, 0 , w, h);
@@ -540,7 +544,7 @@ function up()
             walnut_y = y - (v*Math.sin(angle) - (1/2*g*t))*t;
 
             //충돌 판정
-            if(basket_x-70 <= walnut_x && walnut_x <= basket_x+100 && basket_y - 10 <= walnut_y && walnut_y <= basket_y + 50)
+            if(basket_x-80 <= walnut_x && walnut_x <= basket_x+120 && basket_y - 15 <= walnut_y && walnut_y <= basket_y + 50)
             {
                 touch_key = false;
                 //console.log("CRASH!");
