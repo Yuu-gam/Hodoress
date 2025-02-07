@@ -109,6 +109,53 @@ var gaugeInterval;
 var walnutInterval;
 var touch_key = false;
 
+//이미지 로드 확인
+var images = {}; 
+var imageCount = 0; 
+var loadedCount = 0; 
+
+var imageSources = {
+    temp: "./image/temp.png",
+    title: "./image/title.png",
+    logo: "./image/logo.png",
+    start_button: "./image/start_button.png",
+    back: "./image/background.png",
+    ground: "./image/ground.png",
+    protractor: "./image/protractor.png",
+    gauge: "./image/gauge.png",
+    walnut: "./image/walnut.png",
+    basket: "./image/basket.png",
+    heart_on: "./image/heart/heart_on.png",
+    heart_off: "./image/heart/heart_off.png",
+    wind_event: "./image/wind_event.png",
+    wind_event_reverse: "./image/wind_event_reverse.png"
+};
+
+function loadImages(callback) {
+    for (let key in imageSources) {
+        images[key] = new Image();
+        images[key].src = imageSources[key];
+
+        images[key].onload = function () {
+            loadedCount++;
+
+            // 모든 이미지 로드 시 콜백
+            if (loadedCount === imageCount) {
+                callback();
+            }
+        };
+
+        images[key].onerror = function () {
+            console.error(`이미지 로드 실패: ${imageSources[key]}`);
+        };
+    }
+}
+
+window.onload = function() {
+    loadImages(loaded);
+}
+
+
 function loaded()
 {
     //진행화면
