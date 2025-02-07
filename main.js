@@ -205,8 +205,8 @@ function resetGame() {  // 모든 변수 초기화
     resetWalnut();
     resetEvent();
 
-    // 새로고침 시 게임을 초기화
-    printMain();
+    // 재시작
+    gameRunning = true;
 }
 
 function startGame()
@@ -275,7 +275,6 @@ function printMain()
     context.drawImage(ground, 0, 0 , w, h);
     context.drawImage(title, w/2 - 300, h/2 - 250 , 600, 300);
     ctx_main.drawImage(start_button, button_x, button_y, button_width, button_height);
-    gameRunning = true;
 
     document.getElementById("logo").addEventListener("touchstart", handleClick);
 }
