@@ -15,7 +15,8 @@
         touch-action: manipulation; /*줌인 줌아웃 불가*/
 	}
     body{
-        -webkit-user-select: none;
+        overflow: hidden; /*스크롤 불가*/
+        -webkit-user-select: none;  /*텍스트 선택 불가*/
         -moz-user-select: none;
         -ms-use-select: none;
         user-select: none;
@@ -25,47 +26,63 @@
         font-weight: 400;
         font-style: normal;
     }
-
-	.background{
-        position: center;
-		width: 1200px;
-		aspect-ratio: 20/9;     /*갤럭시 s20 ultra 기준*/
-        background-color: black;
-    }
     canvas{
+        display: block;
         position: absolute;
     } 
+	.background{
+        position: relative;
+		width: 100%;
+		aspect-ratio: 20/9;     /*갤럭시 s20 ultra 기준*/
+    }
+    .cast{
+        background: none;
+        position: relative;
+        z-index: -1;
+        pointer-events: auto;
+    }
+    .start_button{
+        background: none;
+        border: none;
+        position: absolute; 
+        cursor: pointer;
+        pointer-events: auto;
+    }
+
+    /*세로 화면 강제로 가로 지정*/
+    @media screen and (orientation:portrait){
+        html{
+            transform: rotate(90deg);
+            transform-origin: top left;
+            width: 100vh;
+            position: absolute;
+            top: 0;
+            left: 100%;
+        }
+        .background {
+            width: 100vh;
+            aspect-ratio: 20/9;  
+        }
+        canvas {
+            width: 100%;
+            aspect-ratio: auto; 
+        }
+    }
 </style>
 </head>
 
 <body
 oncontextmenu = "return false"
 ondragstart = "return false"
-onselect = "return false"
-onload = "loaded()" >
+onselect = "return false">
     <div class = "background">
-        <canvas 
-            width = "1200" 
-            height = "540" 
-            id = "game">
-        </canvas>
-        <canvas 
-            width = "1200" 
-            height = "540" 
-            id = "canvas_protractor">
-        </canvas>
-        <canvas 
-            width = "1200" 
-            height = "540" 
-            id = "main">
-        </canvas>
-        <canvas 
-            width = "1200" 
-            height = "540" 
-            id = "logo">
-        </canvas>
+        <canvas id = "game"></canvas>
+        <canvas id = "canvas_protractor"></canvas>
+        <canvas id = "main"></canvas>
+        <canvas id = "logo"></canvas>
+        <div class = "cast" id = "cast"></div>
     </div>
-<script src = "main.js"></script>
+<script src = "button.js"></script>
 <script src = "https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
 </body>
 </html>

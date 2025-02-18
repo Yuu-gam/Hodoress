@@ -1,4 +1,6 @@
-/* 화면 */
+/* 변수 */
+
+//화면
 var w;
 var h;
 var scale;
@@ -8,37 +10,23 @@ var temp = new Image();
 temp.src = "./image/temp.png";
 
 
+//배경
+var back = new Image();
+back.src = "./image/background.png";
+var ground = new Image();
+ground.src = "./image/ground.png";
+
+
 //로고
 var logo = new Image();
 logo.src = "./image/logo.png";
 
 var fade_key = false;
 
-//시작 버튼
-var start_button = new Image();
-start_button.src = "./image/start_button.png";
-
-var button_x;
-var button_y;
-var button_width;
-var button_height;
-
-var mouse_x;
-var mouse_y;
-
 
 //타이틀
 var title = new Image();
 title.src = "./image/title.png";
-
-
-/* 게임 진행 화면 */
-
-//배경
-var back = new Image();
-back.src = "./image/background.png";
-var ground = new Image();
-ground.src = "./image/ground.png";
 
 
 //각도기
@@ -120,15 +108,23 @@ var score_panel = new Image();
 score_panel.src = "./image/score_panel.png";
 
 var gameRunning = false;
+var gameEnding = false;
 var runGameInterval;
 var gaugeInterval;
 var walnutInterval;
 var touch_key = false;
+var button_key = false;
 
 
-document.addEventListener('DOMContentLoaded', loaded);
+
+/* 초기화 */
+window.addEventListener('DOMContentLoaded', loaded);
+
 function loaded()
 {
+    window.addEventListener("resize", canvasResize);
+    window.matchMedia("(orientation: portrait)").addEventListener("change", canvasResize);
+
     //진행화면
     canvas = document.getElementById('game');
     context = canvas.getContext('2d');
@@ -145,14 +141,9 @@ function loaded()
     canvas = document.getElementById('logo');
     ctx_logo = canvas.getContext('2d');
 
-    window.addEventListener("resize", canvasResize);
-    window.matchMedia("(orientation: portrait)").addEventListener("change", canvasResize);
-
     canvasResize();
-    resetWalnut();
     printLogo();
 }
-
 
 function canvasResize()
 {
@@ -160,10 +151,14 @@ function canvasResize()
     h = w / ratio;
     scale = w/1200;
 
-    button_x = (1200 / 2 - 150) * scale;
-    button_y = (540 / 2 + 75) * scale;
-    button_width = 300 * scale;
-    button_height = 150 * scale;
+    const startButton = document.getElementById('start_button');
+    if(startButton)
+    {
+        startButton.style.left = (1200 / 2 - 100) * scale;
+        startButton.style.top = (540 / 2 + 50) * scale;
+        startButton.style.width = 200 * scale;
+        startButton.style.height = 100 * scale;
+    }
 
     //캔버스 크기 설정
     let canvasList = ["game", "canvas_protractor", "main", "logo"];
@@ -172,18 +167,19 @@ function canvasResize()
         {
             document.getElementById(id).width = w;
             document.getElementById(id).height = h;
-            let ctx = document.getElementById(id).getContext('2d');
-            ctx.clearRect(0, 0, w, h);
+            document.getElementById(id).getContext('2d').clearRect(0, 0, w, h);
         }
     });
 
-    if(gameRunning)
-        startGame();
-    else
+    resetWalnut();
+    resetEvent();
+
+    if(!gameRunning && !gameEnding)
         printMain();
+    else if (!gameRunning && gameEnding)
+        printEnd();
 }
-6
-// 모든 변수 초기화
+
 function resetGame() 
 {  
     clearInterval(runGameInterval);
@@ -198,8 +194,10 @@ function resetGame()
     heart_array = Array.from({ length: HEART }, () => heart_on);
     resetWalnut();
     resetEvent();
+    removeButton();
 
     // 재시작
+    gameEnding = false;
     gameRunning = true;
 }
 
@@ -219,51 +217,32 @@ function resetEvent()
 
 function resetWalnut()
 {
-    //console.log("호두 리셋");
     walnut_x = 110 * scale;
     walnut_y = (540 / 2 + 90) * scale;
     walnut_key = false;
+
     setTimeout(function() {crash = false;}, 500); //0.5초간 성공 출력
 }
 
 
-function startGame()
+
+/* 게임 장면 */
+
+function printLogo()
 {
-    resetGame();
+    const l = document.getElementById('logo');
+    l.style.zIndex = '101';
 
-    document.getElementById("logo").removeEventListener("touchstart", handleClick);
-    ctx_main.clearRect(0, 0, canvas.width, canvas.height);
+    ctx_logo.drawImage(temp, 0, 0, w, h);
+    ctx_logo.drawImage(logo, 400 * scale, 150 * scale, 400 * scale, 200 * scale);
+    setTimeout(function() {fade_outInterval = setInterval(fade_out, 50)}, 1000);
 
-    //터치 이벤트 추가
-    const touchDown = document.getElementById('logo');
-    touchDown.removeEventListener('touchstart', down);
-    touchDown.removeEventListener('touchend', up);
-    touchDown.addEventListener('touchstart', down);
-    touchDown.addEventListener('touchend', up);
-
-    //runGame 반복 호출
-    runGameInterval = setInterval(runGame, 10); 
-}
-
-function fade_in()
-{
-    l = document.getElementById('logo');
-    opacity = Number(window.getComputedStyle(l).getPropertyValue("opacity"));
-    if(opacity < 1)
-    {
-        opacity = opacity+0.05;
-        l.style.opacity = opacity;
-    }
-    else
-    {
-        fade_key = false;
-        clearInterval(fade_inInterval);
-    }
+    printMain();
 }
 
 function fade_out()
 {
-    l = document.getElementById('logo');
+    const l = document.getElementById('logo');
     opacity = Number(window.getComputedStyle(l).getPropertyValue("opacity"));
     if(opacity > 0)
     {
@@ -272,18 +251,10 @@ function fade_out()
     }
     else
     {
-        fade_key = true;
+        console.log('페이트 아웃 끝');
+        l.style.zIndex = '99';
         clearInterval(fade_outInterval);
     }
-}
-
-function printLogo()
-{
-    ctx_logo.drawImage(temp, 0, 0, w, h);
-    ctx_logo.drawImage(logo, 400 * scale, 150 * scale, 400 * scale, 200 * scale);
-    setTimeout(function() {fade_outInterval = setInterval(fade_out, 50)}, 1000);
-
-    printMain();
 }
 
 function printMain()
@@ -292,42 +263,9 @@ function printMain()
     context.drawImage(logo, (1200 - 220) * scale, 20 * scale, 200 * scale, 100 * scale);
     context.drawImage(ground, 0, 0 , 1200 * scale, 540 * scale);
     context.drawImage(title, (1200 / 2 - 300) * scale, (540 / 2 - 250) * scale , 600 * scale, 300 * scale);
-    ctx_main.drawImage(start_button, button_x, button_y, button_width, button_height);
-
-    document.getElementById("logo").addEventListener("touchstart", handleClick);
-}
-
-
-function handleClick(event)
-{
-    getMousePosition(event.touches[0]);
-
-    canvasResize();
-
-    console.log(mouse_x, mouse_y);
-
-    if(mouse_x >= button_x && mouse_x <= button_x + button_width && 
-        mouse_y >= button_y && mouse_y <= button_y + button_height)
-    {
-        console.log("버튼 클릭");
-        //startGame();
-    }
-}
-
-function getMousePosition(event)
-{
-    let rect = document.getElementById("logo").getBoundingClientRect();
-
-    if(window.matchMedia("(orientation: portrait)").matches) //세로 모드
-    {
-        mouse_x = (event.clientY - rect.top)/scale;
-        mouse_y = (rect.height - (event.clientX - rect.left))/scale;
-    }
-    else    //가로 모드
-    {
-        mouse_x = (event.clientX - rect.left)/scale;
-        mouse_y = (event.clientY - rect.top)/scale;
-    }
+    
+    if(!button_key)
+        printButton();
 }
 
 function printEnd()
@@ -340,25 +278,95 @@ function printEnd()
     ctx_main.drawImage(ground, 0, 0 , w, h);
     ctx_main.drawImage(score_panel, w/4, h/4 - 50, w/2, h/2);
 
-
     const font = new FontFace('Jersey 10', 'url(https://fonts.googleapis.com/css2?family=Jersey+10&display=swap)');
     WebFont.load({
-    google: {
-        families: ['Jersey+10'] //폰트 이름 확인
-    },
-    active: function() {
-        ctx_main.font = "200px 'Jersey 10'";
-        ctx_main.fillStyle = "white";
-        ctx_main.textAlign = "center";
-        ctx_main.fillText(score, (1200/2) * scale, (540/2) * scale);
-    }
+        google: {
+            families: ['Jersey+10'] //폰트 이름 확인
+        },
+        active: function() {
+            ctx_main.font = "200px 'Jersey 10'";
+            ctx_main.fillStyle = "white";
+            ctx_main.textAlign = "center";
+            ctx_main.fillText(score, (1200/2) * scale, (540/2) * scale);
+        }
     });
 
     //재시작 버튼
-    ctx_main.drawImage(start_button, button_x, button_y, button_width, button_height);
-    document.getElementById("logo").addEventListener("touchstart", handleClick);
+    if(!button_key)
+        printButton();
 }
 
+
+
+/* 시작 버튼 */
+
+function printButton()
+{
+    button_key = true;
+
+    const cast = document.getElementById('cast');
+    cast.style.zIndex = '100';
+
+    if(document.getElementById('start_button'))
+    {
+        removeButton();
+    }
+    else
+    {
+        const startButton = document.createElement('start_button');
+        canvasResize();
+
+        startButton.id = "start_button";
+        startButton.classList.add("start_button");
+        startButton.innerHTML = '<img src="./image/start_button.png">';
+        startButton.addEventListener('touchstart', handleClick);
+        cast.appendChild(startButton);
+    }
+}
+
+function removeButton()
+{
+    button_key = false;
+
+    const cast = document.getElementById('cast');
+    cast.style.zIndex = '-1';
+
+    const startButton = document.getElementById('start_button');
+
+    if(startButton)
+    {
+        startButton.removeEventListener('touchstart', handleClick);
+        startButton.remove;
+    }
+}
+
+function handleClick()
+{
+    //console.log("버튼 클릭");
+    removeButton();
+    resetGame();
+    startGame();
+}
+
+
+
+/* 게임 진행 */
+
+function startGame()
+{
+    document.getElementById("logo").removeEventListener("touchstart", handleClick);
+    ctx_main.clearRect(0, 0, canvas.width, canvas.height);
+
+    //터치 이벤트
+    const touchDown = document.getElementById('logo');
+    touchDown.removeEventListener('touchstart', down);
+    touchDown.removeEventListener('touchend', up);
+    touchDown.addEventListener('touchstart', down);
+    touchDown.addEventListener('touchend', up);
+
+    //반복 호출
+    runGameInterval = setInterval(runGame, 10); 
+}
 
 function runGame()
 {
@@ -458,6 +466,9 @@ function runGame()
 }
 
 
+
+/* 이벤트 */
+
 function eventWind()
 {
     event_key = true;
@@ -500,6 +511,8 @@ function eventBasket()
     }
 }
 
+
+/* 터치 인식 */
 
 function down()
 {
@@ -592,6 +605,7 @@ function up()
                 {
                     context.clearRect(0, 0, canvas.width, canvas.height);
                     gameRunning = false;
+                    gameEnding = true;
                     clearInterval(runGameInterval);
                     printEnd();
                 }
