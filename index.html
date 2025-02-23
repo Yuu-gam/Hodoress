@@ -37,9 +37,11 @@
     }
     .cast{
         background: none;
-        position: relative;
         z-index: -1;
         pointer-events: auto;
+        position: relative;
+		width: 100%;
+		aspect-ratio: 20/9;
     }
     .start_button{
         background: none;
@@ -63,6 +65,10 @@
             width: 100vh;
             aspect-ratio: 20/9;  
         }
+        .cast{
+            width: 100vh;
+            aspect-ratio: 20/9;  
+        }
         canvas {
             width: 100%;
             aspect-ratio: auto; 
@@ -82,7 +88,7 @@ onselect = "return false">
         <canvas id = "logo"></canvas>
         <div class = "cast" id = "cast"></div>
     </div>
-<script src = "button.js"></script>
+<script src = "main.js"></script>
 <script src = "https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
 </body>
 </html>
